@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crispy Stop - Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: #0d0d0d;
+    color: #fff;
+    min-height: 100vh;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #1a0a00 100%);
+    padding: 48px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid #e8730020;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, #e8730018 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .logo-icon { width: 110px; height: 110px; border-radius: 50%; display: block; margin: 0 auto 12px; object-fit: cover; border: 3px solid #e87300; box-shadow: 0 0 24px #e8730060; }
+  .brand-name { font-size: 42px; font-weight: 800; letter-spacing: 2px; color: #fff; text-shadow: 0 0 30px #e8730060; }
+  .brand-sub { font-size: 15px; color: #e87300; letter-spacing: 4px; margin-top: 4px; font-weight: 500; }
+  .location { margin-top: 14px; font-size: 13px; color: #888; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+  .tabs {
+    display: flex; background: #111; border-bottom: 1px solid #222;
+    overflow-x: auto; padding: 0 16px; gap: 4px; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 14px 20px; font-size: 14px; font-weight: 500; color: #666;
+    cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap;
+    transition: all 0.2s; font-family: 'Tajawal', sans-serif;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .tab.active { color: #e87300; border-bottom-color: #e87300; }
+  .tab:hover { color: #fff; }
+
+  .menu-section { display: none; padding: 24px 16px; max-width: 700px; margin: 0 auto; }
+  .menu-section.active { display: block; }
+
+  .section-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #e87300;
+    text-transform: uppercase; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #222;
+  }
+
+  .item-card {
+    background: #161616; border: 1px solid #222; border-radius: 12px;
+    padding: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 14px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .item-card:hover { border-color: #e8730040; transform: translateY(-1px); }
+  .item-emoji { font-size: 32px; min-width: 48px; text-align: center; filter: drop-shadow(0 2px 4px #00000060); }
+  .item-info { flex: 1; }
+  .item-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .item-desc { font-size: 13px; color: #888; line-height: 1.5; }
+  .item-price { font-size: 17px; font-weight: 800; color: #e87300; white-space: nowrap; text-align: right; }
+  .item-price span { font-size: 11px; font-weight: 400; color: #666; display: block; text-align: right; }
+
+  .badge-new { background: #e87300; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-right: 6px; vertical-align: middle; }
+  .badge-pop { background: #1a3a1a; color: #4caf50; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-right: 6px; vertical-align: middle; border: 1px solid #4caf5040; }
+
+  .combo-card {
+    background: linear-gradient(135deg, #1a1200, #1a0a00); border: 1px solid #e8730030;
+    border-radius: 12px; padding: 18px; margin-bottom: 12px;
+  }
+  .combo-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .combo-items { font-size: 13px; color: #999; margin-bottom: 12px; }
+  .combo-footer { display: flex; align-items: center; justify-content: space-between; }
+  .combo-price { font-size: 22px; font-weight: 800; color: #e87300; }
+  .combo-save { background: #e8730020; border: 1px solid #e8730040; color: #e87300; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+
+  .footer { background: #0a0a0a; border-top: 1px solid #1a1a1a; padding: 24px 16px; text-align: center; }
+  .footer-phone { font-size: 22px; font-weight: 800; color: #e87300; letter-spacing: 1px; }
+  .footer-address { font-size: 13px; color: #666; margin-top: 8px; }
+  .footer-hours { font-size: 13px; color: #888; margin-top: 6px; }
+
+  .social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 8px; }
+  .social-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 30px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.2s, opacity 0.2s; font-family: 'Tajawal', sans-serif; }
+  .social-btn:hover { transform: translateY(-2px); opacity: 0.85; }
+  .social-btn.facebook { background: #1877f2; color: #fff; }
+  .social-btn.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
+  .social-btn.tiktok { background: #010101; color: #fff; border: 1px solid #333; }
+  .social-btn.whatsapp { background: #25d366; color: #fff; }
+  .stars { color: #e87300; font-size: 13px; letter-spacing: 1px; }
+  .rating-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
+  .rating-num { font-size: 15px; font-weight: 700; color: #fff; }
+  .rating-count { font-size: 12px; color: #666; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="logo-icon" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGFiODAxMDAwMGE2MDMwMDAwMGUwNjAwMDA3OTA3MDAwMGJkMDkwMDAwMTYwZTAwMDAyYTEzMDAwMDg2MTMwMDAwZWMxNDAwMDAyODE2MDAwMDgzMWIwMDAwAP/bAIQABQYGCwgLCwsLCw0LCwsNDg4NDQ4ODw0ODg4NDxAQEBEREBAQEA8TEhMPEBETFBQTERMWFhYTFhUVFhkWGRYWEgEFBQUKBwoICQkICwgKCAsKCgkJCgoMCQoJCgkMDQsKCwsKCw0MCwsICwsMDAwNDQwMDQoLCg0MDQ0MExQTExOc/8IAEQgAlgCWAwEiAAIRAQMRAf/EAIMAAAICAwEAAAAAAAAAAAAAAAAGBAUCAwcBEAABAgMEBgYHBQcEAwAAAAABAgMABBESITFBBRATIlFhIDJxgZGhMEJSscHR4TM0YnLwFBUjQFOComNzksKy0vERAQABAwIFBAIDAQAAAAAAAAERACExQVEQYXGB8JGhscEg0TDh8UD/2gAMAwEAAgADAAAAAWoDmzSAAABDp17Xf+dA2c9so/jqBUZAAAAAACq1Ku3BqA1ZgACndoFtr9l+ZXNzjGkemE1qWtlVSt4gN0HOxAh7QABValXbg1AasxemLlhpxu7KfaxeaOfS915pp1i2ibYKK5yKpXt5aW7FTKXWJNuZGFyBX7hValXbg1BTeeq3QV1jl665acFdkrW565noMck90g7zpvOX5CwwuQjpN5gktLa4VNT6tsi1Yiq1KujNqSnVKlYOeQQNsevl9CbqhIp1evhWTVbUfV9keEmdN5pbV1rUy9K1asmeQ40dLSOKhWTbtValVQtmpKdUeXg8AV+6r6fzLoLnSc9UjRjfs3XOD90nU2rnXQUHKDg2JfVq2VVSKm1uYOrnvVeSw5F+qtSqkXjUptkfM0ZJPULeJTNEb1lquR+9BkRb3nXc6KLvrWNA2v8Aug8mcnCFhlK9p6DPXb89r3lct/VVqVaCc1Aas03oNfz9lru+UeV0x1AnOICM7ZgVNseHnsaKp+e70de6fSWmzMFSzFVqVdmLUBqzPPQEplsKu9hdClcL2sFb3LziuUnV1JRWNMXdA1OF3R2OjeFBMAPPRValXbg1Cqas2oVQGoVQGoVQGoVT3xqFU89ahVAahVAahVAalUNuH//aAAgBAQABBQLpOvJaDekEKK3UohKwoentbZb5tJSgRI3O+mmphVpG5qAuQ3WGZ3Zw3MIc9I9MJaja7Rwiuq0NUq22sOaMSY2z0tDEwl70M3ObGJeSLkPMF6LV8tolS4TJMpEzoluGm1IegisTEiURKTm16c1MbFMlLW4fc2aZV9LITRWqYdUuGVrbidlrQYd2idU7KxKTO2T0fvb0U2kxNPBLehXasRPP7GNHOGrwua3XdReQDYUwoGvQnHdm3o9qw3Ep96nmQ8WJFDSR15kl5LMsGoaeDza7pmHF2EuygTK6TTWXU1+xva9JbxApqYFZiimy44BBnmhB0gDCBs4lmC2l77eJgW40p9hpP7vpRjaRKPKVre3prUk2ZlaAsaTltktLIEMINWJdLIXg/wDbLcoWCTMz6bQ0iKtzvWe3ZzUv73qd+0jS9FKRRMaPVV+HerM/aPmwdINW2kluZQ4wlwOs2jNffdU5uP6li0886GkKUVlMNrsLSah7qzw3Js1ah6RBLDm0TDqrc7q0m3VEu5tEPPJaGjnErc0g0XGSbkm6lqGeq/gX3FuOSbyEys5ZgKBitImpxLaZBJOtxFtMo+WYldHhMOsul6Vfo2qrxEkzMhmQbZhM+oRNBM0+00ltMPMIdC2koDyilLDSpo9CfZKTLaQDyIVItqXDqHJdYk3iKQ1KIaVqW4ExMTSW4ClTqgKDousmVXKTiJlPTcciYmUMw20ZlbbYQOkRWHZRbKpXTYMIfQuK6qw8QYd2yYe0i9DEkt6G2wgehelUOwZF1qP2yZbgaXj97x+3Prgyz70MyTbf81//2gAIAQMAAT8B1pbWtJWKACtB7VIIWmypQoF3Dj0TrqFKQitLRAPZDTVgWcU5ceYhxlLlATUJyEC0MLxwNyhy7YS4DdgeB1nUtR6qcePCJhexFE9Y31iY0q46LPV42c4SVJvCqGJSZ2tbXWz55QtAV84Qog2VY5HjqMKNATwhpN1Tiq+Ht51VxNKeUGTKqkHGEsqoRYNYkzZcA7tTk5aKaD1oZdDgqIMPYU4kDU88WnFcFUrEvae6gAAAvPOJqY2JoDbOWQES6quJJzMTLwSlQrvUwger2/KJJyhAyMGHsByI1T96+4RKyFhKAVGpG+Abuzz98aXasO8AQKd10MKopJ5xP3LSeUdkSnXTBhabQIhybCEjNXCFLJVbrfUGE6avBU3QUoaGt8T83+1KBAoEigrjHV5wp21S1lFIk5azvGDqm5eu8IvHKAaQTXUBWJWVzOo63pMLwhcopMbFXCG5ZRyhqVpj4DWfRGP/2gAIAQIAAT8B1taMQAAuts4kGlgnlnTOHtGpQ2pQWSpAqbt08aZ9FOvRsraJcUiqQDZrgVdmdL+UKNb84BIrziZQwVqCrTKuNAUHnQX0MPySmxaFHEe2m8d/DWnVKsJCS871E3JT/UVw7I0elU0varNEN3IQLk1+g8YRLpTfjBAOUablikpWOr1ew3nzviXmlMmqTcesk9VQ5iJlhKk7Zrqm5aP6av8A11JhpsuKSkYqIHjE+7VWzT1GdxPdie0mJCy1LtVITa4mlSq/xj96oSaUNBioZDiRw8+UGeZuO2R4xpRIWw5ndaHdfCRUgDE3CJXRSWQsFRVbSAoZc/pwidkzLLsk1BvB/WcJjRtzhV/TQtfgPrqlZZMzLNVuKQoA8MRH7qReXFqKqmtKC/vr/wDIZ0al2oTVLY6xrVTihlXABPIY1icQEsOJGCW1AdgEaMk1rcacs7gNbXZ9Y4xpaXDjSzS9F4PZj5QmNHXqcT7bTiR4atDfYJ7Ve+HzbKuBy45Y45ZERKHdpwiZRbQtPtJI8RGgySyoH1VkdmB9+rSBoy7+VXuhMSr2ycQvgb+zA+UN6HLjq6mjVagj1gbwB84bbCE2AKACggyvAwy3sx2xjCGgitkUtGp5n5xWNMT4ILKcfXPDOnbxhOrRGkLg0s3jqHiOHaMuXRJjSekdkLCDvn/EfPh4wTWE65PTJRuu7w9rPv4++Gp5tzqrB5VofA3xbh2cbb6zgHff4YxN6arc0P7z8B8/CCa3k1JxOpPRr0Ux/9oACAEBAAY/AulVRilCmuBMbygIqDUfyCnDeAaJEX5RVe+o8cBDiR1aV9Ps0Gl1VGLJ4467VspJ4QUOmtMDjG6oH3+k3j3ZwpVKWvhTXjqsLTv4359hjcNnz+sb+8n9Z/ON3wz9DQXr90W3c8sz2xYaAq3fwA/D2mKUNr2aX+EWnt0ewPiYpskU7BFW9w8vlCQu6gVQ+12a7bN1Mvl8oobl+/p1zyjarvrh8/lBOJyHEnCNmErWUn+ItKai3n+hFoZ56lBKw0hHXcPHgK3dsJJdD7KjS1dVJOGGVbouuOKDwVAV49uevaouIvNPfH4hj0vwJ9311MoyFVnuw842W9aoFClwtFRtVi89VRHx+OqhRaCy9/yJFD4QtvJaf8hShjsh5HMLH92OuhUKgVpygPhJDKj5Hl7uiribh3xXNV/dlqVya96otJJxoDZuNT+auOdIFoW1c7x3CDsrTShwG4e7AxZW0b6GqSMRmKkUu4gxUNX83TXySBFRzBBxBGRgfib9x1FXAVgKUKrtJcV/cbx4GkOchXwMJSCS07hXI9BtHH43RTUoe0z/ANobSsEU3cNw3XEGKqIHbHX98UQkqJwyEUqVKPqj4DIeUKKuss2jyupTwhr8q9Tbf9RYHcLzBHEoH+Qh3s95hhNaG3QHhu/SFIX10Gh1oHCnxOtk+0Fp8qwUkVBjM9prjh8R3agfWVc2PersAigxzVmTzg9kM9i4CQkrUqtAOXbDYcSWyEqoFZk8MsIbH+q374pxW2P8xEv/ALw/8VQr8aK/rw1p7vcdcv8A7o89QTxReeF+78Yx2ivBA+JgFV5sn4ajDB5qHiIbc9hY8FXGCR1m99Pam+B1Vi48YAUKgYd0NkGmzVXjW6nxgfk+ettXZ79cuPx2v+IhSz6ogqV1lXn9co7YQrgfI3a7QxbUFeGMVGG6fMarbf8ADd4jA/mGYipFDgRwIx1K/Cmnl9dYV7J98JVy84qoxaVW2obibJ3UjG+lKmFBN5uNONDXUICRiq7WpDbYcAxNaCvM4Rstw28ECpsj82QEbJ65xP8AlzHHWTl7+QhbqsVnWUnMQtsipruj8WFI2ju+75J5ARaSUpFgJriRfU0GHCF7Vf2S1JUo8jd5RtUMJsj2rluc08OVcY2iCoVxpx5jjFfEmLa0UYV1VDEDiocDAQL/AOGN4eqCakjuoB2wEpFANVFpCo/RgkWbs1YCLbpqkYDCvRDyLinHuwMIPrFQSocD+hdq2hFTw9WozphXUpbSLaXMUjJzJXYc4DSl2mjes+tzT2E+V0UyhSkJCbQy6FVnuz8Iv3Wk5cYoMB0g4i9INezkYqnHNOY9BcqN438M4NK0zJNad/GAkYD0G0YJHLP6jlFHhZPEYeGIioUCOhjfFUWVDgq4jvgioT+W/wA74tKqBxOJiiRQeivF/EYxVpf/AFPyjeRXu+Ii9vz+kfZnx+kbjVO4n5CP4i6Dh9BdGFTxP81//9oACAEBAQE/IfytCGmqvIoe9kEPpitfHd+s1FlvDP8AwOsLfHf5d1pmyyOUbdqFpYWUhFjmx2KesQjs2/cfzxYmSOg6a6fNSJEikOJQs6jakkTeogbAULZMYhoYlkadsTwJ7telZJNsehv/ACHzccC67fbRiIYNe50KMQ8EMg7lTa16QDb23RdS0MRpV8VbNn6e9CwHPWTtmdKDSrmXh5ufwkLaGNBu/RS065T/AMBypMimbqCw8Qu1rRnF6/akSrotD2vg9agHuL3ZaVM3pfVZPSo4kwMTI/ZOABEkcjcaQmVdHJ48YojbDTTmPs/MFydju/o1p1nKS6u/xvtVlcB0kPWlyeZzXmzLGLGAikRAwsNR58ErPwBZk8sEk6sGtPgKth6JNioLUkqaLHpDH6eTWhy2GwsPXixyU8mnma70Ezawfs5P5JZ/zv39qCLFgryTsVD1ATqR9xSdiZpNCGV0YyeaoRuXoygMI6IYnD/VFkKm3NXW0qee6a5YewPtxYEyCbm70qzGomJfWA5nQAS44fwmR9l/SajIarw2v34CU2Y8OVJVSQDNNAshNshd0qLpLuA8yx1iWo7sFU5SvYB2aVIKRUgiVkrHA3pD0x785kKSSkHMDcz5zXeXhm1hvRRP5FS6jI5jEogxYfRNR1Dap8ZOzy/BI+qfUD7oADAQduF44nJ6Q+6JM+aiEI2L4hRvEVPheYK0o9BfVPDuiRefeuYnyS6vyCbr1E5IAuWBLWAS6tevLh1w3kYK7Fvet9yPoH3TApfPCk9xWBPXPP1/fHoJ7DieRDB8UNIUI4alIQkJRRc5enU5qgJum+/6qMjX/PKf4OpWYiu3fL6wYKUdZXt32KTFREWyVQAUoFWJjFxKiVbDM3QnXh4aTPmQlG20V1jis5hxTh+R6E4ObwpqTiti8SHo1lsLBEznN3tFTKlu/ANCHHBehVvgz+qhrMvm0fo1zDTqfeBO9IDJsWIx8lBVQIuQ4IiJFPpCKQuObzMKGc5mnPJ+vGtj+kH2eMM5kuklYgUeux3bUt0p/QchYrCer1/quRPPqPme1RzvWbt808SnsP8AQ0LpKSeU3DBOxa5IWTXWlGBzu1A6Th1IeAJMeqBxRVzOlvzFbqN3RZ96smbGr0KsGNIEhN0JImORQbQwcih3C1Cq5h5VMnKprIAd8+hehA70i2b2Y1zQh2CwEXPgZqCVZ3W7dlArE62KRlrRyBh9D6lYBGkZIUzWz1XyNL7JdJl7TY6cTxRjzvS6OM6z9yzShA2rf01bfNLo5DG/bqdS6YrXhBEtInBdlBz1wRG6HyeSh+oZROoYQDZqRnMF1LBdu4OkUYTRlI2DR5BMGaVMMokyKxqjmOSgTYweXd2oqFALklx5OTtRCJ2Cfk396dIZKMG9rvSkbURiboNDfVxNABBYMH4XAEKNPo4aOMG9UFeyJ4L3bCpZBA8wLTwZgHpj6D10FNJNec/ezaVAhYWRGkbU1QAQQWVnvPtx5o7VjquBddKZMdhlc3f40vRkEBAGh+KTZuNH9DwvCPYuw+Mo4GbLz5bOH81Ci/QT70JN5g3fb7aWoJyoxzWeT6oOY8Jef5gESRyNSgBpw6fIqGi9ovf+wUIKGo2oLhPXgg1q5FjbWpimd7QCCdfWkNl2bPl9lOSru+xz8tB4h5Lz/iv8XRf270p8j+xRofuv9NKZzoz5ohw3nanzR9ij3fE/B6mo1s+b6GD+eKj+L//aAAwDAQECAQMBAAAQ88+rH8888p885mXtx88p8u8c2VuW8p99/Oks7Ifp/wD0/wA+TxfymrxanhpHwqmzT20J23Ymnwve5/8AjS9p8uqZsKHf8pwwwwBwwwwh/9oACAEDAQE/EOLnyZiUZ30mLUYSqCbLSTpePxy4ugEhuLnotis1g14DMm4aPOi78Wa8hA2vYnrNaNEvuBOinZT0h7b8cuDkzM7O/Woy7cayNes4ovIPOHr5ci1OTAuQs+uJ7zSXU2K6Lvahb50GStMTsf3wyqWNE1FzQ+ipk5CJikElzA2F2H+orq5tqZC0yilgV0poAQidbR+6E2tysqx/2h4ROTJHTasZrbtjDGtn0ol3OjmGJZlxe5TXwyvegmfUX/qvueO1Lv7bvWVWLuvfhgl2D1qOelhMp6otxTDkv7Uu8nvXI4VaesusU7r9lX8r91lXOQt10rXQI5E1aEXjuL6dqOZah+vDEGbTNY1+ck3e7sbVYEkkw2DnmaaK7Q6n9USxXU2PNqy4fPPNmrqXWHSuonI68Es5vS2BPKgmOQ31eXDLjerHzHkVo0+b4968Cfuv20nz1ob4+GWgixaOGX8WVf/aAAgBAgEBPxDjNXEsDADU3LbViUIAEgOROXO3448XuE4cwi7ASwyK+UVsjdGne1fr6+eoBmTh/wBpdbTaeOPA87242HLr32a8vpo0oOehOlWBpoPKwXsLF1qD7Mla07cfsacMawBJ5Siehmi/exwYiwAvvms2uAWDsoKeWlKQlAN1sHrXkadb9qWhJZxJzNn6axroEuqhRZu68IYEYZHQjZZ5O3MV54eQC9Cq0qAdjTgc2SImcWziGImmmCL8ximNHdOoGX1wtn8HWppqCAWqwFkfqhxAiDwdkVjWxR937TVsC1J2IhZ9HBmws+jO1ZxvSOBpMMKui2bEPE0xWPDyIB5k0s86SeMNeUOz10IlWVurlf3WPAYqPk2PxfKh5dvAj2VHevSj+hPs4DOO1CJS6ru78Mfxlv8AjjX/2gAIAQEBAT8Q/LZ6h2bI/Bq1O4EBlOJU3b450SOkrS9MnpRp8xGSadeT/wABEejJvI6VCT3IzmclN0+B4AHIobCHZk37/R/P+rRJBDDSVBVzga3CRIaBRsYCepFM3d9AIpNYTKGjUCJrO80yPeMKu6Nesw/Bez+T/Lix0HQKafxLhtYC5KRYH1EuJzHg/CWyT81emNlr2nqVgApUjuNI5Vb8v9lNGOFCww02l6pqdQ/h04CWV56mW2dJ607nsD7VzUbdttaHSgMVEsvtk5qZGXn09N5jFR1IQi16gndoQXPbevWEU217M70ua4AmNAAGyNmtRin3N5uu1Lez5BM7KdnS2PysZuf6r6no1rwLEx6KIZ7lH6l+lSgML+DR0MUhFxYjlEZRwisrFMNEcgQc0+UKNAAOB0KzbG9+KaAISM7v+gL24q3V6h4TavvNokMe+nkjJ+TP4F7+KKAAAAAsAWA5BR/UlfkVI/8Az7BXGkdnKbRHQBZAOEZHvX0Pmr6R63oRvBkgfdXO36DR22Xl9TxV6QTAJUerpXjbOhJ2ndAwAhhHCfgyKB9hXtNQPw+uHgJY/wB5pj65Syx1GioZu8QzgVBHI9JJf1gZBVy/sna6Bg+d2GCOw50W2mPnUNm8sEDerpt3gZn1c4WO7BWGp4mf6RCloIAbYLbFL8mkBdbmt38Gu191CGjAg5CD2OB6I6z+hW9WYwInRYjOgFsptNZbyTaFFrNypL/pRQ8r9P3sEq6b+jXw5fIQaRRhfEHhPH5+V6s6BouUVd1XcFZWhL7tE5JhCmbauNzYfxPYRb0e9SJEppDy45G5eliPsVpzHU9Wk3ISV8CH+0P2Diqgow79dV8TBsRUh8Io3KnMblPkRmRBrX71E+d8uvJHl6lLzXdK8M51BDrDpRx35lJcdyTtXOEV+a3+hkYUuoAegQDahbd1elxsj7F+EXbeqFeeuGi2X5po+zUbfq6OsaDsdc3mvmJOpU0U0asiGhG1SrEC7hige6AKdJPl3473r+/xFMGde6fWKyoRDKMHOAc2r4IXQdOlOUVfNlP1fCmAY8XdChyDX6ln3pRz34KxWE86PFpXVmEGd6cEql4OV+uxHI1ONyTOeGsE6hqcLho5dR9+LURH4mDQtKR5XCrOXqPtrfBq0yu/0UiUJp6GAQGzLzzR1RSaYi7YxF5wzkb0Rm3shCdmooSE9V3SROgUsnWR0W1YSmhK4AKGYJK1yo3scNuGr5ghWIsCe5oKoi/ZtAGmTTY2emPjU89QQqFSET2Af4Zo0IV74OxyOPJFHlOHtB7VaDVke0MysnI+CR71Lt+x5IuXbeq3ScqX0DBnSvIN5UC6gU+zZH2JBEetTnIvMmO8g5qmq9z6h3Q/cKoDwZucDwnHulcplLrdqEzF2JemPmhzy9SRQ3NFT9KXTTG8tu6qfk2C62yptZO9WAn14j6ig0AAAIALAGgH4Pe5CiXgcRzrmOixMc4HbI8FqWOLkRJSG3O9RSDvWXpL22rhpR/g53qAKAEESEIsxEWigwK/vPA5EhBxE3dk577FEQ/gYZo5sG7SK0d7o9SOdO8o95FkAwH4mUACIkiNkTZKi/Dv7AYObvTFSJHSDXY+pY/LKIdWKgRA7f5FK7E+KdHYK9sFFJE2lETLQGrumqbr+YAAICRHIjZKzDHL1Sfc9ypdLoxT6xv7FYKISPViskugeGQB1QooHi1Q7WtT3nM/5ES81a4UPaUOocYPvHkTQ5MMNXVMq1X+LoDfcnHYaVzeQ+4VWiK8Z+FZIKSymcx9lNt1z3XCIc0gXklDxsTz/nQ5B6k0AwB0I/i//9k=" alt="Crispy Stop Logo">
+  <div class="brand-name">CRISPY STOP</div>
+  <div class="brand-sub">SÉTIF · ALGERIA</div>
+  <div class="rating-row">
+    <div class="stars">★★★★★</div>
+    <div class="rating-num">4.6</div>
+    <div class="rating-count">(41 avis)</div>
+  </div>
+  <div class="location">📍 Boulevard, Sétif 19000</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('chicken', this)">🍗 Poulet</button>
+  <button class="tab" onclick="showTab('burgers', this)">🍔 Burgers</button>
+  <button class="tab" onclick="showTab('sides', this)">🍟 Accompagnements</button>
+  <button class="tab" onclick="showTab('combos', this)">🎁 Menus</button>
+  <button class="tab" onclick="showTab('drinks', this)">🥤 Boissons</button>
+</div>
+
+<div id="tab-chicken" class="menu-section active">
+  <div class="section-title">Poulet Crispy</div>
+  <div class="item-card">
+    <div class="item-emoji">🍗</div>
+    <div class="item-info">
+      <div class="item-name"><span class="badge-pop">⭐ Populaire</span>Crispy Chicken</div>
+      <div class="item-desc">Poulet croustillant mariné et frit, servi avec sauce maison</div>
+    </div>
+    <div class="item-price">350 DA<span>/ pièce</span></div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🍗</div>
+    <div class="item-info">
+      <div class="item-name">Crispy Wings</div>
+      <div class="item-desc">Ailes de poulet croustillantes, sauce BBQ ou piquante</div>
+    </div>
+    <div class="item-price">450 DA<span>/ 6 pcs</span></div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🍗</div>
+    <div class="item-info">
+      <div class="item-name">Crispy Tenders</div>
+      <div class="item-desc">Filets de poulet panés, sauce à la crème à l'ail</div>
+    </div>
+    <div class="item-price">500 DA<span>/ 4 pcs</span></div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🍱</div>
+    <div class="item-info">
+      <div class="item-name"><span class="badge-pop">⭐ Populaire</span>Poulet & Riz</div>
+      <div class="item-desc">Poulet crispy avec riz parfumé et salade fraîche</div>
+    </div>
+    <div class="item-price">650 DA<span>/ portion</span></div>
+  </div>
+</div>
+
+<div id="tab-burgers" class="menu-section">
+  <div class="section-title">Burgers Crispy</div>
+  <div class="item-card">
+    <div class="item-emoji">🍔</div>
+    <div class="item-info">
+      <div class="item-name">Crispy Burger</div>
+      <div class="item-desc">Filet de poulet crispy, salade, tomate, sauce spéciale</div>
+    </div>
+    <div class="item-price">550 DA</div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🍔</div>
+    <div class="item-info">
+      <div class="item-name"><span class="badge-new">NEW</span>Double Crispy</div>
+      <div class="item-desc">Double filet crispy, fromage fondu, sauce BBQ</div>
+    </div>
+    <div class="item-price">750 DA</div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🍔</div>
+    <div class="item-info">
+      <div class="item-name">Spicy Crispy</div>
+      <div class="item-desc">Poulet épicé, jalapeños, sauce piquante, fromage</div>
+    </div>
+    <div class="item-price">620 DA</div>
+  </div>
+</div>
+
+<div id="tab-sides" class="menu-section">
+  <div class="section-title">Accompagnements</div>
+  <div class="item-card">
+    <div class="item-emoji">🍟</div>
+    <div class="item-info">
+      <div class="item-name"><span class="badge-pop">⭐ Populaire</span>Frites Crispy</div>
+      <div class="item-desc">Frites dorées et croustillantes, assaisonnées</div>
+    </div>
+    <div class="item-price">200 DA<span>/ portion</span></div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🥗</div>
+    <div class="item-info">
+      <div class="item-name">Salade Fraîche</div>
+      <div class="item-desc">Salade maison avec vinaigrette spéciale Crispy Stop</div>
+    </div>
+    <div class="item-price">150 DA</div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🧄</div>
+    <div class="item-info">
+      <div class="item-name">Sauce Ail</div>
+      <div class="item-desc">Sauce crémeuse à l'ail, faite maison</div>
+    </div>
+    <div class="item-price">50 DA</div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🍚</div>
+    <div class="item-info">
+      <div class="item-name">Riz Parfumé</div>
+      <div class="item-desc">Riz aux épices douces, garniture idéale</div>
+    </div>
+    <div class="item-price">180 DA</div>
+  </div>
+</div>
+
+<div id="tab-combos" class="menu-section">
+  <div class="section-title">Menus Spéciaux</div>
+  <div class="combo-card">
+    <div class="combo-title">🎯 Menu Solo</div>
+    <div class="combo-items">1 Crispy Chicken + Frites + Boisson</div>
+    <div class="combo-footer">
+      <div class="combo-price">700 DA</div>
+      <div class="combo-save">Économisez 100 DA</div>
+    </div>
+  </div>
+  <div class="combo-card">
+    <div class="combo-title">👨‍👩‍👧 Menu Famille</div>
+    <div class="combo-items">4 Crispy Chicken + 2 Frites + 4 Boissons + Salade</div>
+    <div class="combo-footer">
+      <div class="combo-price">2 400 DA</div>
+      <div class="combo-save">Économisez 400 DA</div>
+    </div>
+  </div>
+  <div class="combo-card">
+    <div class="combo-title">🔥 Menu Poulet & Riz</div>
+    <div class="combo-items">Poulet Crispy + Riz parfumé + Salade + Boisson</div>
+    <div class="combo-footer">
+      <div class="combo-price">800 DA</div>
+      <div class="combo-save">Économisez 130 DA</div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-drinks" class="menu-section">
+  <div class="section-title">Boissons</div>
+  <div class="item-card">
+    <div class="item-emoji">🥤</div>
+    <div class="item-info">
+      <div class="item-name">Soda (Pepsi / 7Up / Mirinda)</div>
+      <div class="item-desc">Canette fraîche 33cl</div>
+    </div>
+    <div class="item-price">100 DA</div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">💧</div>
+    <div class="item-info">
+      <div class="item-name">Eau minérale</div>
+      <div class="item-desc">Bouteille 50cl</div>
+    </div>
+    <div class="item-price">50 DA</div>
+  </div>
+  <div class="item-card">
+    <div class="item-emoji">🧃</div>
+    <div class="item-info">
+      <div class="item-name">Jus naturel</div>
+      <div class="item-desc">Orange, citron ou cocktail fruits</div>
+    </div>
+    <div class="item-price">150 DA</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div style="font-size:12px;color:#555;margin-bottom:8px;letter-spacing:2px;">SUIVEZ-NOUS</div>
+  <div class="social-links">
+    <a class="social-btn facebook" href="https://www.facebook.com/people/Crispy-Stop-كريسبي-ستوب/61585973584261/" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      Facebook
+    </a>
+    <a class="social-btn instagram" href="https://www.instagram.com/crispystop.dz/" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      Instagram
+    </a>
+    <a class="social-btn tiktok" href="https://www.tiktok.com/@crispystop.dz" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+      TikTok
+    </a>
+    <a class="social-btn whatsapp" href="https://wa.me/213660129919" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+  <div style="border-top:1px solid #1a1a1a;margin:20px 0 16px;"></div>
+  <div style="font-size:12px;color:#555;margin-bottom:8px;letter-spacing:2px;">CONTACTEZ-NOUS</div>
+  <div class="footer-phone">📞 0660 12 99 19</div>
+  <div class="footer-address">📍 Boulevard, Sétif 19000</div>
+  <div class="footer-hours">🕙 Ouvert Sam–Ven · 10h00 – tard</div>
+</div>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
